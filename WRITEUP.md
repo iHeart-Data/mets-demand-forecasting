@@ -36,14 +36,5 @@ What did work: retraining daily on an expanding window (2022-2025 plus every 202
 
 - **Duplicate rows from postponed games.** Games that got postponed and replayed later showed up twice in the pitcher schedule pull, once for the original date and once for the makeup date, each with a different probable-pitcher snapshot. Inflated my row count by 14 rows before I caught it by checking for duplicate `game_pk`s.
 - **Doubleheader game-2s.** A cluster of badly overpredicted games turned out to all be nightcaps of a doubleheader, which draw noticeably smaller crowds. The MLB API already returns a field for this (`gameNumber`), I just hadn't asked for it. Added as `is_game2` across the whole pipeline once I found the pattern.
-- **The daily automation wouldn't run unattended.** launchd jobs reading/writing files in iCloud Drive failed with `Resource deadlock avoided`, even from a native `cp` call, not a pandas issue. Root cause: macOS blocks unattended background processes from touching iCloud-synced files at all. Fix was moving both the data and the scripts themselves to a local, non-iCloud folder, with a small sync script to move things back and forth when working interactively.
-
-## The daily prediction system
-
-A script now runs every morning via `launchd`, tracking every Mets home game within 9 days of game day: refreshes the dataset with newly completed games, builds live features (weather forecast, current standings, probable starter ERA if announced), retrains Gradient Boosting on everything available, and logs a prediction for each tracked game. Because it logs every run, I can see how the same game's prediction shifts as game day approaches and more information firms up, which is the actual question worth asking of a system like this.
-
-## What's next
-
-This is attendance prediction only for now. A dynamic pricing layer on top is the planned next step, but I'm holding off until the model has a consistently accurate MAPE, not just an occasionally sufficient R² on a small backtest. Plan is to revisit once the 2026 season concludes and see if it's good enough to actually inform pricing.
 
 Full code and notebooks: see the [README](README.md).
