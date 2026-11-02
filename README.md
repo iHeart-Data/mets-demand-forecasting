@@ -65,7 +65,3 @@ Requires a conda environment with `pandas`, `numpy`, `requests`, `duckdb`, `scik
 - `TEAM_ID` at the top of `01_data_collection.ipynb`, `02b_standings_and_pitchers.ipynb`, and `02c_broadcast_gametime_and_2026_master.ipynb` (find a team's ID via `https://statsapi.mlb.com/api/v1/teams?sportId=1`).
 - The `lat`/`lon` default args in `02_weather_and_database.ipynb`'s `get_weather()`, to the new ballpark's coordinates.
 - `TEAM_ID` and `LAT, LON` at the top of `mets/scripts/predict_next_home_game.py`, if you also want the daily automation running for that team.
-
-## Status
-
-Actively tracking the 2026 season. Plan is to revisit `04` and `05` once the season concludes and the backtest is final, and keep an eye on `06` as daily predictions come in over the remaining home games. This is attendance prediction only for now, a dynamic pricing layer on top of it is a planned next step, not built yet, held off on until the model has a consistently accurate MAPE. Will come back after the season concludes and see if it's good enough to use for pricing analytics.
